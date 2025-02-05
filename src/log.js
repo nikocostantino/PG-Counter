@@ -8,5 +8,5 @@ export function log(message, level = 0, type = 'component') {
 
   const indent = '- '.repeat(level);
 
-  console.log('%c' + indent + message, styling);
+  //console.log('%c' + indent + message, styling);
 }
