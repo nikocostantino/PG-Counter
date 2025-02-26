@@ -4,10 +4,13 @@ import { log } from '../log.js';
 import logoImg from '../assets/pino.jpg';
 import { useLogin } from './LoginContext'; // Importiamo il contesto
 import { login as doLogin, logout, getToken, isAuthenticated } from '../services/apiService';
-
+import { Image } from 'react-bootstrap';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Header() {
   log('<Header /> rendered', 1);
+
+  const isSmallScreen = useMediaQuery({ maxWidth: 768 }); // Tablet e telefoni
 
   // Stato per gestire la visibilità della modale
   const [showModal, setShowModal] = useState(false);
@@ -52,9 +55,14 @@ export default function Header() {
 
   return (
     <header id="main-header">
-      <img 
-        src={logoImg}  
-        style={{ width: '25vw', height: 'auto', marginBottom:'10px'}}
+      <Image 
+        src={logoImg} 
+        fluid 
+        style={{ 
+          width: isSmallScreen ? '70vw' : '25vw', 
+          height: 'auto', 
+          marginBottom: '10px' 
+        }} 
       />
       <h1></h1>
 

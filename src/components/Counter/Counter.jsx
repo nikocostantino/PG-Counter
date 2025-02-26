@@ -10,7 +10,7 @@ import { useLogin } from '../LoginContext'; // Importiamo il contesto
 
 // memo controlla se sono cambiate le prop, se non sono cambiate non riesegue in componente
 // puo essere rimosso ora perchè il ConfigureCounter ora è a parte, prima era dentro APP
-const Counter = function Counter({ initialCount, isClose}) {
+const Counter = function Counter({ initialCount, isClose, lastUpdate}) {
 
 
 
@@ -19,13 +19,15 @@ const Counter = function Counter({ initialCount, isClose}) {
 
   const [counter, setCounter] = useState(initialCount);
   const [closed, setClosed] = useState(isClose);
+  const [lastUpdateDate, setLastUpdateDate] = useState(lastUpdate);
   const [error, setError] = useState(null);  // New state to manage errors
 
 
   useEffect(() => {
     setClosed(isClose);
     setCounter(initialCount);
-  }, [initialCount, isClose]);
+    setLastUpdateDate(lastUpdate);
+  }, [initialCount, isClose, lastUpdate]);
 
 
   // Function to handle API data posting and error handling
@@ -85,6 +87,7 @@ const Counter = function Counter({ initialCount, isClose}) {
               Incrementa
             </IconButton>}
           </p>
+          {login !== true && <p className="counter-info" style={{ marginTop: '1rem' }}>{lastUpdateDate}</p>}
           {login === true && <button
             className="button"
             style={{ justifyContent: 'center', display: 'block', margin: '0 auto', marginTop: '1rem' }}
