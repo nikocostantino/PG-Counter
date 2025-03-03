@@ -6,16 +6,14 @@ import PlusIcon from '../UI/Icons/PlusIcon.jsx';
 import CounterOutput from './CounterOutput.jsx';
 import { log } from '../../log.js';
 import { postAppData } from '../../services/apiService';
-import { useLogin } from '../LoginContext'; // Importiamo il contesto
 
 // memo controlla se sono cambiate le prop, se non sono cambiate non riesegue in componente
 // puo essere rimosso ora perchè il ConfigureCounter ora è a parte, prima era dentro APP
-const Counter = function Counter({ initialCount, isClose, lastUpdate}) {
+const Counter = function Counter({ initialCount, isClose, lastUpdate, login}) {
 
 
 
   log('<Counter /> rendered', 1);
-  const { login, setLogin } = useLogin(); // Otteniamo il valore di login e la funzione per modificarlo
 
   const [counter, setCounter] = useState(initialCount);
   const [closed, setClosed] = useState(isClose);
@@ -37,8 +35,13 @@ const Counter = function Counter({ initialCount, isClose, lastUpdate}) {
 
       const response = await postAppData(newCounter, isClose);
       console.log('Data posted successfully:', response);
-      response.error==true? setError("Si è verificato un errore.") : setError(null);
+      response.error==true && response.isClose==true ? 
+        setError("Il salone è chiuso non è possibile aprirlo in questo momento.") 
+      : (
+        response.error==true? setError("Si è verificato un errore.") : setError(null)
+      );
       setCounter(response.initialCount);
+      setClosed(response.isClose)
     } catch (error) {
       console.error('Error posting data:', error);
       setError('Si è verificato un errore.');  // Set error state
@@ -58,7 +61,6 @@ const Counter = function Counter({ initialCount, isClose, lastUpdate}) {
   };
 
   const handleClose = () => {
-    setClosed(!closed);
     postData(0, !closed);  // Post data with counter 0 and the new closed state
   };
 
@@ -97,7 +99,7 @@ const Counter = function Counter({ initialCount, isClose, lastUpdate}) {
           </button>}
         </>
       )}
-      {closed === true && (
+      {closed === true && !error  && (
         <>
           <p className="counter-info">Il salone è chiuso.</p>
           {login === true && <button

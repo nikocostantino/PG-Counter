@@ -1,6 +1,10 @@
+const domain2 = "https://pino-girimonte.onrender.com";
+const domain = "http://localhost:8080";
+
 export const fetchAppData = async () => {
     try {
-      const response = await fetch('https://pino-girimonte.onrender.com/home/app-data');
+      const response = await fetch(domain+'/home/app-data');
+      console.log("fetch data")
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -18,7 +22,7 @@ export const fetchAppData = async () => {
   
       if (!token) return {error: true}; // Se non c'è il token, non autenticato
       console.log(data)
-      const response = await fetch('https://pino-girimonte.onrender.com/home/updateApp-data', {
+      const response = await fetch(domain+'/home/updateApp-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +45,7 @@ export const fetchAppData = async () => {
     try {
       const credentials = { username, password };
   
-      const response = await fetch('https://pino-girimonte.onrender.com/login', {
+      const response = await fetch(domain+'/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +90,7 @@ export const isAuthenticated = async () => {
   if (!token) return false; // Se non c'è il token, non autenticato
   
   try {
-    const response = await fetch('https://pino-girimonte.onrender.com/admin/verify-token', {
+    const response = await fetch(domain+'/admin/verify-token', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

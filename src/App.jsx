@@ -5,7 +5,7 @@ import { log } from './log.js';
 import { fetchAppData } from './services/apiService';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button'; // Importa il pulsante da React-Bootstrap
-import { LoginProvider} from './components/LoginContext'; // Importiamo il LoginContext
+import { useLogin} from './components/LoginContext'; // Importiamo il LoginContext
 
 function App() {
   log('<App /> rendered');
@@ -15,8 +15,12 @@ function App() {
   const [lastUpdate, setLastUpdate] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { login, setLogin } = useLogin(); // Otteniamo il valore di login e la funzione per modificarlo
 
   useEffect(() => {
+    let callCount = 0;
+    let timeoutId;
+  
     const getData = async () => {
       try {
         const data = await fetchAppData();
@@ -28,17 +32,20 @@ function App() {
       } finally {
         setLoading(false);
       }
+  
+      if (login !== true) {
+        callCount++;
+        const nextInterval = 5000 * callCount; // Aumenta il tempo progressivamente
+  
+        timeoutId = setTimeout(getData, nextInterval);
+      }
     };
   
     // Prima chiamata immediata
     getData();
   
-    // Esegui la funzione ogni 5 secondi
-    const interval = setInterval(getData, 5000);
-  
-    // Pulizia dell'intervallo quando il componente viene smontato
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearTimeout(timeoutId); // Pulizia quando il componente si smonta
+  }, [login]);
 
   if (loading) return (
     <div className="d-flex justify-content-center mt-5">
@@ -55,17 +62,17 @@ function App() {
   );
 
   return (
-    <LoginProvider>
+    <>
       <Header/>
       <main>
-        <Counter initialCount={initialCount} isClose={isClose} lastUpdate={lastUpdate}/>
+        <Counter initialCount={initialCount} isClose={isClose} lastUpdate={lastUpdate} login={login}/>
       </main>
       <div className="d-flex justify-content-center mt-5">
         <Button onClick={() => window.location.reload()} variant="primary">
               Ricarica
         </Button>
       </div>
-    </LoginProvider>
+    </>
   );
 }
 
