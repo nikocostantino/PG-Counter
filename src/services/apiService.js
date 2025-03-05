@@ -1,5 +1,6 @@
-const domain2 = "https://pino-girimonte.onrender.com";
-const domain = "http://localhost:8080";
+const domain = "";
+const domain1 = "https://pino-girimonte.onrender.com";
+const domain2 = "http://localhost:8080";
 
 export const fetchAppData = async () => {
     try {

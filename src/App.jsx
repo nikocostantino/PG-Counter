@@ -6,6 +6,7 @@ import { fetchAppData } from './services/apiService';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button'; // Importa il pulsante da React-Bootstrap
 import { useLogin} from './components/LoginContext'; // Importiamo il LoginContext
+import Footer from './components/Footer.jsx';
 
 function App() {
   log('<App /> rendered');
@@ -61,17 +62,19 @@ function App() {
     </div>
   );
 
+
   return (
     <>
       <Header/>
       <main>
         <Counter initialCount={initialCount} isClose={isClose} lastUpdate={lastUpdate} login={login}/>
       </main>
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-3">
         <Button onClick={() => window.location.reload()} variant="primary">
               Ricarica
         </Button>
       </div>
+      <Footer/>
     </>
   );
 }
