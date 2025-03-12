@@ -16,7 +16,7 @@ body {
 }
 
 #main-header {
-  margin: 2rem auto;
+  margin: 0.5rem auto;
   text-align: center;
   font-family: 'Lato', sans-serif;
   color: #87a7a4;
@@ -42,7 +42,7 @@ main {
 }
 
 section {
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 #configure-counter {
@@ -98,7 +98,7 @@ section {
 }
 
 .counter {
-  padding: 2rem;
+  padding: 1rem;
   border: 1px solid #05827e;
   border-radius: 6px;
 }

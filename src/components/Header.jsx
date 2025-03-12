@@ -61,7 +61,7 @@ export default function Header() {
         style={{ 
           width: isSmallScreen ? '70vw' : '25vw', 
           height: 'auto', 
-          marginBottom: '10px' 
+          marginBottom: '5px' 
         }} 
       />
       <h1></h1>
